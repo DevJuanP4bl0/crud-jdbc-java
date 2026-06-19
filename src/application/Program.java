@@ -39,10 +39,16 @@ public class Program {
 		
 		System.out.println();
 		System.out.println("=== TEST 4: seller Insert ===");
-		
 		Seller s = new Seller(null, "Juan", "juan@gmail.com", LocalDate.parse("14/02/2004", DateTimeFormatter.ofPattern("dd/MM/yyyy")), 2000.00, department); 
 		sellerDao.insert(s);
 		System.out.println("Inserted! New id = " + s.getId());
+		
+		System.out.println();
+		System.out.println("=== TEST 5: seller Update ===");
+		seller = sellerDao.findById(1);
+		seller.setName("Carlo Ancelotti");
+		sellerDao.update(seller);
+		System.out.println("Updated completed!");
 	}
 
 }
