@@ -28,6 +28,13 @@ public class Program2 {
 		Department d = new Department(null, "Music");
 		departmentDao.insert(d);
 		System.out.println("Inserted! New id = " + d.getId());
+		
+		System.out.println();
+		System.out.println("=== TEST 4: department Update ===");
+		department = departmentDao.findById(1);
+		department.setName("Administration");
+		departmentDao.update(department);
+		System.out.println("Updated completed!");
 	}
 
 }
