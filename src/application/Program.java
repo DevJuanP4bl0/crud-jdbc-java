@@ -1,4 +1,6 @@
 package application;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import model.dao.DaoFactory;
@@ -20,19 +22,27 @@ public class Program {
 		
 		System.out.println();
 		System.out.println("=== TEST 2: seller findByDepartment ===");
-		List<Seller> sellers = sellerDao.findByDepartment(new Department(2, null));
+		Department department = new Department(2, null);
+		List<Seller> sellers = sellerDao.findByDepartment(department);
 	
 		for (Seller s : sellers) {
 			System.out.println(s);
 		}
 		
 		System.out.println();
-		System.out.println("=== TEST 2: seller findByDepartment ===");
+		System.out.println("=== TEST 3: seller findAll ===");
 		sellers = sellerDao.findAll();
 	
 		for (Seller s : sellers) {
 			System.out.println(s);
 		}
+		
+		System.out.println();
+		System.out.println("=== TEST 4: seller Insert ===");
+		
+		Seller s = new Seller(null, "Juan", "juan@gmail.com", LocalDate.parse("14/02/2004", DateTimeFormatter.ofPattern("dd/MM/yyyy")), 2000.00, department); 
+		sellerDao.insert(s);
+		System.out.println("Inserted! New id = " + s.getId());
 	}
 
 }
