@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 
 import db.DB;
@@ -57,14 +55,8 @@ public class SellerDaoJDBC implements SellerDao {
 			rs = ps.executeQuery();
 			
 			if (rs.next()) {
-				Department department = new Department(rs.getInt("DepartmentId"), rs.getString("DepName"));
-				Seller seller = new Seller(
-						rs.getInt("Id"), 
-						rs.getString("Name"), 
-						rs.getString("Email"), 
-						rs.getDate("BirthDate").toLocalDate(), 
-						rs.getDouble("BaseSalary"), 
-						department);
+				Department department = instantiateDepartment(rs);
+				Seller seller = instantiateSeller(rs, department);
 			
 				return seller;
 			}
@@ -78,6 +70,20 @@ public class SellerDaoJDBC implements SellerDao {
 			DB.closeStatement(ps);
 			DB.closeResultSet(rs);
 		}
+	}
+
+	private Seller instantiateSeller(ResultSet rs, Department department) throws SQLException {
+		return new Seller(
+				rs.getInt("Id"), 
+				rs.getString("Name"), 
+				rs.getString("Email"), 
+				rs.getDate("BirthDate").toLocalDate(), 
+				rs.getDouble("BaseSalary"), 
+				department);
+	}
+
+	private Department instantiateDepartment(ResultSet rs) throws SQLException  {
+		return new Department(rs.getInt("DepartmentId"), rs.getString("DepName"));
 	}
 
 	@Override
